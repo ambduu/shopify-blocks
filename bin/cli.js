@@ -11,14 +11,9 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'registry.json'), 'utf8'));
 
-const c = {
-  bold: (s) => `\x1b[1m${s}\x1b[0m`,
-  dim: (s) => `\x1b[2m${s}\x1b[0m`,
-  green: (s) => `\x1b[32m${s}\x1b[0m`,
-  yellow: (s) => `\x1b[33m${s}\x1b[0m`,
-  red: (s) => `\x1b[31m${s}\x1b[0m`,
-  orange: (s) => `\x1b[38;5;209m${s}\x1b[0m`,
-};
+const tty = process.stdout.isTTY && !process.env.NO_COLOR;
+const paint = (code) => (s) => (tty ? `\x1b[${code}m${s}\x1b[0m` : String(s));
+const c = { bold: paint(1), dim: paint(2), green: paint(32), yellow: paint(33), red: paint(31), orange: paint('38;5;209') };
 
 function help() {
   console.log(`
