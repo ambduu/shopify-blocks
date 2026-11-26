@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>shopify-blocks — copy-paste sections for Shopify themes</title>
+  <meta name="description" content="Beautiful, accessible Shopify sections you copy into your theme. No app. No subscription. Own the code.">
+  <meta property="og:title" content="shopify-blocks — copy-paste sections for Shopify">
+  <meta property="og:description" content="Beautiful, accessible Shopify sections. No app, no subscription — one command and the code is yours.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>▲</text></svg>">
+  <link rel="stylesheet" href="site/site.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="./"><span class="tri">▲</span> shopify-blocks</a>
+    <nav>
+      <a href="#blocks">Blocks</a>
+      <a href="#ai">AI agents</a>
+      <a class="gh" href="https://github.com/ambduu/shopify-blocks" target="_blank" rel="noopener">★ Star on GitHub</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="pill">Open source · MIT · Works with any Online Store 2.0 theme</p>
+    <h1>Shopify sections you <em>own</em>.</h1>
+    <p class="lead">Beautiful, accessible sections you drop straight into your theme.
+      No app to install. No monthly fee. No script tags slowing your store down. Just Liquid, CSS and a little JS — yours to edit.</p>
+    <div class="cmd" data-copy="npx github:ambduu/shopify-blocks add faq-accordion">
+      <span class="prompt">$</span>
+      <code>npx github:ambduu/shopify-blocks add faq-accordion</code>
+      <button class="copy" type="button">Copy</button>
+    </div>
+    <p class="muted small">Run it inside your theme folder. Then open the theme editor → <b>Add section</b>.</p>
+  </section>
+
+  <main id="blocks" class="blocks"></main>
+
+  <section id="ai" class="ai">
+    <h2>Built for AI coding agents too</h2>
+    <p>shopify-blocks ships an agent skill for <b>Claude Code</b> and a rule for <b>Cursor</b>.
+      Your agent learns which blocks exist, installs them with one command, and writes new sections that follow
+      Shopify best practices — scoped CSS, presets, <code>block.shopify_attributes</code>, responsive images, accessibility.</p>
+    <div class="cmd" data-copy="mkdir -p .claude/skills && cp -r node_modules/shopify-blocks/skills/shopify-theme-sections .claude/skills/">
+      <span class="prompt">#</span>
+      <code>See skills/shopify-theme-sections in the repo</code>
+      <a class="copy" href="https://github.com/ambduu/shopify-blocks/tree/main/skills/shopify-theme-sections" target="_blank" rel="noopener">Open</a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    Made by <a href="https://github.com/ambduu" target="_blank" rel="noopener">@ambduu</a> ·
+    Want a block? <a href="https://github.com/ambduu/shopify-blocks/issues/new" target="_blank" rel="noopener">Request it</a> ·
+    Previews are rendered in your browser with <a href="https://liquidjs.com" target="_blank" rel="noopener">LiquidJS</a>.
+  </footer>
+
+  <template id="card-tpl">
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <h2 class="title"></h2>
+          <p class="desc"></p>
+        </div>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="preview" type="button">Preview</button>
+          <button class="tab" data-tab="code" type="button">Code</button>
+        </div>
+      </div>
+      <div class="pane pane-preview"><iframe title="Preview" loading="lazy"></iframe></div>
+      <div class="pane pane-code" hidden><pre><code></code></pre></div>
+      <div class="card-foot">
+        <div class="cmd small-cmd"><span class="prompt">$</span><code class="add-cmd"></code><button class="copy" type="button">Copy</button></div>
+        <button class="btn copy-code" type="button">Copy .liquid</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="site/vendor/liquid.browser.min.js"></script>
+  <script src="site/site.js"></script>
+</body>
+</html>

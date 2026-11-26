@@ -1,0 +1,104 @@
+{%- comment -%}
+  Logo Cloud — from shopify-blocks (https://github.com/ambduu/shopify-blocks)
+  "As seen in" press / partner logos. Static grid or infinite scroll, grayscale until hover.
+{%- endcomment -%}
+<style>
+  .sb-logos-{{ section.id }} {
+    padding: {{ section.settings.padding }}px 20px;
+    background: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    overflow: hidden;
+  }
+  .sb-logos-{{ section.id }} .sb-logos__heading {
+    text-align: center; margin: 0 0 26px; font-size: 13px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; opacity: .6;
+  }
+  .sb-logos-{{ section.id }} .sb-logos__row {
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    gap: 28px 56px; max-width: 1200px; margin: 0 auto;
+  }
+  .sb-logos-{{ section.id }}.is-scrolling .sb-logos__row {
+    flex-wrap: nowrap; justify-content: flex-start; width: max-content; max-width: none;
+    animation: sb-logos-{{ section.id }} {{ section.settings.speed }}s linear infinite;
+  }
+  @keyframes sb-logos-{{ section.id }} { to { transform: translateX(calc(-50% - 28px)); } }
+  .sb-logos-{{ section.id }} .sb-logos__item {
+    display: grid; place-items: center; height: {{ section.settings.logo_height }}px; flex: none;
+    {% if section.settings.grayscale %}filter: grayscale(1); opacity: .65;{% endif %}
+    transition: filter .25s, opacity .25s;
+    color: inherit; text-decoration: none; font-weight: 800; font-size: 22px; letter-spacing: -.02em;
+  }
+  .sb-logos-{{ section.id }} .sb-logos__item:hover { filter: none; opacity: 1; }
+  .sb-logos-{{ section.id }} .sb-logos__item img { height: 100%; width: auto; object-fit: contain; }
+  @media (prefers-reduced-motion: reduce) { .sb-logos-{{ section.id }} .sb-logos__row { animation: none !important; } }
+</style>
+
+<div class="sb-logos-{{ section.id }}{% if section.settings.scroll %} is-scrolling{% endif %}">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="sb-logos__heading">{{ section.settings.heading | escape }}</h2>
+  {%- endif -%}
+  <div class="sb-logos__row">
+    {%- liquid
+      assign copies = 1
+      if section.settings.scroll
+        assign copies = 2
+      endif
+    -%}
+    {%- for copy in (1..copies) -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.link != blank -%}
+          <a class="sb-logos__item" href="{{ block.settings.link }}" {{ block.shopify_attributes }}{% if copy == 2 %} aria-hidden="true" tabindex="-1"{% endif %}>
+        {%- else -%}
+          <div class="sb-logos__item" {{ block.shopify_attributes }}{% if copy == 2 %} aria-hidden="true"{% endif %}>
+        {%- endif -%}
+          {%- if block.settings.logo != blank -%}
+            {{ block.settings.logo | image_url: height: 120 | image_tag: loading: 'lazy', alt: block.settings.name }}
+          {%- else -%}
+            {{ block.settings.name | escape }}
+          {%- endif -%}
+        {%- if block.settings.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Logo cloud",
+  "tag": "section",
+  "class": "sb-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "As featured in" },
+    { "type": "checkbox", "id": "scroll", "label": "Infinite scroll", "default": false },
+    { "type": "range", "id": "speed", "label": "Scroll loop duration", "min": 10, "max": 80, "step": 2, "unit": "s", "default": 30 },
+    { "type": "checkbox", "id": "grayscale", "label": "Grayscale until hover", "default": true },
+    { "type": "range", "id": "logo_height", "label": "Logo height", "min": 20, "max": 80, "step": 2, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding", "label": "Vertical padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#1d1b24" }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        { "type": "image_picker", "id": "logo", "label": "Logo image" },
+        { "type": "text", "id": "name", "label": "Name (used as alt text, or shown if no image)", "default": "Northwind" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo cloud",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo", "settings": { "name": "Lumen Weekly" } },
+        { "type": "logo", "settings": { "name": "Arcadia" } },
+        { "type": "logo", "settings": { "name": "Field & Fern" } },
+        { "type": "logo", "settings": { "name": "Halcyon" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,102 @@
+{%- comment -%}
+  Countdown Banner — from shopify-blocks (https://github.com/ambduu/shopify-blocks)
+  Sale countdown that hides itself (or shows a message) when the timer ends.
+{%- endcomment -%}
+<style>
+  .sb-countdown-{{ section.id }} {
+    display: block;
+    background: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    padding: {{ section.settings.padding }}px 20px;
+    text-align: center;
+  }
+  .sb-countdown-{{ section.id }} .sb-cd__eyebrow { margin: 0 0 6px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+  .sb-countdown-{{ section.id }} .sb-cd__heading { margin: 0 0 22px; font-size: clamp(24px, 4vw, 40px); }
+  .sb-countdown-{{ section.id }} .sb-cd__units { display: inline-flex; gap: 12px; }
+  .sb-countdown-{{ section.id }} .sb-cd__unit {
+    min-width: 76px;
+    padding: 14px 8px 10px;
+    border-radius: 14px;
+    background: color-mix(in srgb, currentColor 10%, transparent);
+  }
+  .sb-countdown-{{ section.id }} .sb-cd__num { display: block; font-size: clamp(28px, 5vw, 44px); font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+  .sb-countdown-{{ section.id }} .sb-cd__label { font-size: 12px; opacity: .75; text-transform: uppercase; letter-spacing: .08em; }
+  .sb-countdown-{{ section.id }} .sb-cd__btn {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 13px 28px;
+    border-radius: 999px;
+    background: {{ section.settings.button_bg }};
+    color: {{ section.settings.button_text }};
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .sb-countdown-{{ section.id }} .sb-cd__ended { font-size: 18px; font-weight: 600; }
+</style>
+
+<sb-countdown class="sb-countdown-{{ section.id }}" data-end="{{ section.settings.end_date | escape }}" data-hide="{{ section.settings.hide_when_done }}">
+  {%- if section.settings.eyebrow != blank -%}<p class="sb-cd__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+  {%- if section.settings.heading != blank -%}<h2 class="sb-cd__heading">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+  <div class="sb-cd__units" role="timer" aria-live="off">
+    <div class="sb-cd__unit"><span class="sb-cd__num" data-unit="d">00</span><span class="sb-cd__label">Days</span></div>
+    <div class="sb-cd__unit"><span class="sb-cd__num" data-unit="h">00</span><span class="sb-cd__label">Hours</span></div>
+    <div class="sb-cd__unit"><span class="sb-cd__num" data-unit="m">00</span><span class="sb-cd__label">Mins</span></div>
+    <div class="sb-cd__unit"><span class="sb-cd__num" data-unit="s">00</span><span class="sb-cd__label">Secs</span></div>
+  </div>
+  <p class="sb-cd__ended" hidden>{{ section.settings.ended_text | escape }}</p>
+  {%- if section.settings.button_label != blank -%}
+    <div><a class="sb-cd__btn" href="{{ section.settings.button_link | default: '/collections/all' }}">{{ section.settings.button_label | escape }}</a></div>
+  {%- endif -%}
+</sb-countdown>
+
+<script>
+  if (!customElements.get('sb-countdown')) {
+    customElements.define('sb-countdown', class extends HTMLElement {
+      connectedCallback() {
+        const raw = (this.dataset.end || '').trim();
+        this.end = new Date(raw.length <= 10 ? raw + 'T23:59:59' : raw).getTime();
+        if (isNaN(this.end)) return;
+        this.tick();
+        this.timer = setInterval(() => this.tick(), 1000);
+      }
+      disconnectedCallback() { clearInterval(this.timer); }
+      tick() {
+        let s = Math.max(0, Math.floor((this.end - Date.now()) / 1000));
+        const parts = { d: Math.floor(s / 86400), h: Math.floor(s / 3600) % 24, m: Math.floor(s / 60) % 60, s: s % 60 };
+        for (const [k, v] of Object.entries(parts)) {
+          const el = this.querySelector(`[data-unit="${k}"]`);
+          if (el) el.textContent = String(v).padStart(2, '0');
+        }
+        if (s === 0) {
+          clearInterval(this.timer);
+          if (this.dataset.hide === 'true') { this.hidden = true; return; }
+          this.querySelector('.sb-cd__units').hidden = true;
+          this.querySelector('.sb-cd__ended').hidden = false;
+        }
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Countdown banner",
+  "tag": "section",
+  "class": "sb-section",
+  "settings": [
+    { "type": "text", "id": "end_date", "label": "End date and time", "info": "Format: 2026-12-31 or 2026-12-31T18:00 (store visitor's local time)", "default": "2026-12-31T23:59" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Limited time" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Winter sale ends soon — up to 40% off" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop the sale" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "checkbox", "id": "hide_when_done", "label": "Hide section when the timer ends", "default": false },
+    { "type": "text", "id": "ended_text", "label": "Message after the timer ends", "default": "The sale has ended — thanks for shopping with us!" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ff5a36" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
+    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#1d1b24" },
+    { "type": "color", "id": "button_text", "label": "Button text", "default": "#ffffff" },
+    { "type": "range", "id": "padding", "label": "Vertical padding", "min": 16, "max": 120, "step": 4, "unit": "px", "default": 56 }
+  ],
+  "presets": [ { "name": "Countdown banner" } ]
+}
+{% endschema %}

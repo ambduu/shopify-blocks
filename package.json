@@ -1,0 +1,12 @@
+{
+  "name": "shopify-blocks",
+  "version": "0.1.0",
+  "description": "Copy-paste sections for Shopify themes. Own the code — no app, no subscription.",
+  "bin": { "shopify-blocks": "bin/cli.js" },
+  "files": ["bin", "blocks", "registry.json"],
+  "keywords": ["shopify", "liquid", "shopify-theme", "sections", "online-store-2", "cli"],
+  "repository": { "type": "git", "url": "git+https://github.com/ambduu/shopify-blocks.git" },
+  "homepage": "https://ambduu.github.io/shopify-blocks/",
+  "license": "MIT",
+  "engines": { "node": ">=16" }
+}

@@ -1,0 +1,9 @@
+---
+description: Shopify theme sections — reuse shopify-blocks, follow Online Store 2.0 best practices
+globs: sections/*.liquid, blocks/*.liquid, snippets/*.liquid
+alwaysApply: false
+---
+Follow the instructions in skills/shopify-theme-sections/SKILL.md of https://github.com/ambduu/shopify-blocks:
+check `npx github:ambduu/shopify-blocks list` before writing a section; scope CSS with section.id; settings + presets in schema;
+`{{ block.shopify_attributes }}` on blocks; escape text output; responsive lazy images with image_url/image_tag;
+accessible markup; guarded custom elements; no external scripts.

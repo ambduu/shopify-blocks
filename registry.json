@@ -1,0 +1,12 @@
+{
+  "name": "shopify-blocks",
+  "homepage": "https://ambduu.github.io/shopify-blocks/",
+  "blocks": [
+    { "name": "announcement-marquee", "title": "Announcement marquee", "description": "Infinite scrolling announcement bar. Pauses on hover, respects reduced motion.", "tags": ["header", "promo"] },
+    { "name": "faq-accordion", "title": "FAQ accordion", "description": "Accessible accordion with FAQPage structured data for Google rich results.", "tags": ["content", "seo"] },
+    { "name": "countdown-banner", "title": "Countdown banner", "description": "Sale countdown that hides itself or shows a message when time runs out.", "tags": ["promo", "urgency"] },
+    { "name": "before-after-slider", "title": "Before / after slider", "description": "Drag to compare two images. Keyboard accessible, responsive images.", "tags": ["media"] },
+    { "name": "testimonial-wall", "title": "Testimonial wall", "description": "Masonry review cards with star ratings and an average score.", "tags": ["social proof"] },
+    { "name": "logo-cloud", "title": "Logo cloud", "description": "\"As featured in\" press or partner logos — static grid or infinite scroll.", "tags": ["social proof"] }
+  ]
+}
