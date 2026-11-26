@@ -4,7 +4,7 @@
 
 **Copy-paste sections for Shopify themes. No app. No subscription. You own the code.**
 
-[**Browse live previews →**](https://ambduu.github.io/shopify-blocks/)
+[**Browse live previews →**](https://ambduu.github.io/shopify-blocks/) · [**Questions? Ask in Discussions**](https://github.com/ambduu/shopify-blocks/discussions)
 
 </div>
 
@@ -80,6 +80,10 @@ mkdir -p .claude/skills && cp -r /tmp/shopify-blocks/skills/shopify-theme-sectio
 **Cursor** — copy `.cursor/rules/shopify-theme-sections.mdc` into your project's `.cursor/rules/`.
 
 Then just ask: *"add an FAQ section to the product page"*.
+
+## Questions & help
+
+Stuck, or not sure which block fits? [Ask in Discussions](https://github.com/ambduu/shopify-blocks/discussions/categories/q-a) — questions help everyone, and ideas for new blocks are welcome in [Ideas](https://github.com/ambduu/shopify-blocks/discussions/categories/ideas).
 
 ## Contributing
 
